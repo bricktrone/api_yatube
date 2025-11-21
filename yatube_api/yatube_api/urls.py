@@ -1,0 +1,24 @@
+# yatube_api/urls.py
+
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
+from rest_framework.authtoken import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    # Подключаем маршруты из нашего приложения api
+    path('api/', include('api.urls')),
+    # Эндпоинт для получения токена
+    path('api/v1/api-token-auth/', views.obtain_auth_token),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )
+    # Этот static нужен для статики админки, если DEBUG=False
+    # urlpatterns += static(
+    #     settings.STATIC_URL, document_root=settings.STATIC_ROOT
+    # )
